@@ -2,7 +2,7 @@ const base_URL = "https://www.receitaws.com.br/v1/cnpj/";
 const request = require('request');
 
 module.exports = {
-    async validation(req, res) {
+    async validate(req, res) {
         const { _id } = req.body;
         url = base_URL + _id;
         request({url: url}, function(err, response, body) {

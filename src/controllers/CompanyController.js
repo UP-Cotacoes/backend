@@ -3,14 +3,14 @@ const mongoose = require('mongoose');
 const Company = mongoose.model('Company');
 
 module.exports = {
-    async list(req, res) {
+    async listAllCompanies(req, res) {
         const companies = await Company.find();
         return res.json(companies);
     },
 
-    async register(req, res) {
+    async registerCompany(req, res) {
         const data = req.body;
-        const { email,  _id } = data;
+        const { email, _id } = data;
         const companyExists = await Company.find({$or: [{email: email}, {_id: _id}]});
         
         if (companyExists.length) {
@@ -21,7 +21,7 @@ module.exports = {
         return res.json(data);
     },
 
-    async update(req, res) {
-        //const data = req.body;
+    async updateCompany(req, res) {
+        //TODO
     },
 }

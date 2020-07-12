@@ -5,7 +5,8 @@ app.use(express.json());
 
 mongoose.connect(
     "mongodb://localhost:27017/up",
-    { useNewUrlParser: true }
+    { useNewUrlParser: true,
+      useUnifiedTopology: true }
   );
 
 app.use('/api', require('./src/routes'));

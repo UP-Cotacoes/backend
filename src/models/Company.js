@@ -1,10 +1,12 @@
-    const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
+const mongoose = require('mongoose');
+const SALT_WORK_FACTOR = 10;
 
-    const CompanySchema = new mongoose.Schema({
+const CompanySchema = new mongoose.Schema({
         _id: {
             type: String,
         },
-        password: {
+        password_hash: {
             type: String,
             required: true
         },
@@ -36,7 +38,21 @@
             address: String,
             phone: String,
             cnpj: String,
-        }]
+    }]
+});
+
+CompanySchema.virtual('password').set(function (password) {
+        this.password_hash = this.hashPassword(password);
     });
 
-    mongoose.model('Company', CompanySchema);
+CompanySchema.methods = {
+    checkPassword: function(password) {
+        return bcrypt.compare(password, this.password_hash);
+    },
+    hashPassword: function(password) {
+        if (!password) return;
+        return bcrypt.hashSync(password, SALT_WORK_FACTOR);
+    }
+}
+
+module.exports = mongoose.model('Company', CompanySchema);
