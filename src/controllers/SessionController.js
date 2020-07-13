@@ -1,18 +1,19 @@
-require('../models/Company');
+require('../models/User');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const authConfig = require('../config/auth');
-const Company = mongoose.model('Company');
+const User = mongoose.model('User');
 
 module.exports = {
     async createSession(req, res) {
-        if (req.body._id || req.body.email) {
-            const company = await Company.findOne({$or: [{email: req.body.email}, {_id: req.body._id}]});
-            const id = req.body._id;
+        if (req.body.email) {
+            const user = await User.findOne({email: req.body.email});
             
-            if (!company) return res.json({status: 'Empresa não registrada.'});
+            if (!user) return res.json({status: 'Empresa não registrada.'});
 
-            const correctPassword = company.checkPassword(req.body.password);
+            const correctPassword = user.checkPassword(req.body.password);
+            
+            const id = user._id;
 
             if (correctPassword) {
                 return res.json({
@@ -25,5 +26,13 @@ module.exports = {
         }
 
         return res.json({status: 'Campo vazio'});
+    },
+
+    async listCompanies(req, res) {
+        const user = await User.findOne({_id: req.body.id});
+        
+        if (!user) return res.json({status: 'Usuário não encontrado.'});
+
+        return res.json(user.companies);
     },
 }

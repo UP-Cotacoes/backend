@@ -1,17 +1,20 @@
 const express = require('express');
 const routes = express.Router();
-const CompanyController = require('./controllers/CompanyController');
+const UserController = require('./controllers/UserController');
 const SessionController = require('./controllers/SessionController');
+const auth = require('./middleware/auth');
 const CNPJ = require('./services/CNPJ');
 
 //rotas principais
-routes.post('/register', CompanyController.registerCompany);
+routes.post('/register', UserController.create);
 routes.post('/sessions', SessionController.createSession);
 
-//util
-routes.post('/cnpj_validation', CNPJ.validate);
+
+routes.post('/cnpj/validate', CNPJ.validate);
 
 //testes
-routes.get('/companies', CompanyController.listAllCompanies);
+routes.use(auth.authMiddleware);
+routes.get('/companies', SessionController.listCompanies);
+
 
 module.exports = routes;

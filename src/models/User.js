@@ -2,10 +2,7 @@ const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 const SALT_WORK_FACTOR = 10;
 
-const CompanySchema = new mongoose.Schema({
-        _id: {
-            type: String,
-        },
+const UserSchema = new mongoose.Schema({
         password_hash: {
             type: String,
             required: true
@@ -18,34 +15,40 @@ const CompanySchema = new mongoose.Schema({
             type: String,
             required: true,
         },
-        address: {
-            street: String,
-            number: String,
-            cep: String,
-            state: String,
-            city: String,
-            neighborhood: String,
-        },
         phone: {
             type: String,
             required: true,
         },
-        category: {
-            type: String,
-            required: true,
-        },
-        branch: [{
-            address: String,
-            phone: String,
-            cnpj: String,
-    }]
+        companies: [{
+            name: {
+                type: String,
+                required: true,
+            },
+            phone: {
+                type: String,
+                required: true,
+            },
+            cnpj: {
+                type: String,
+                required: true,
+            },
+            address: {
+                street: String,
+                number: String,
+                cep: String,
+                state: String,
+                city: String,
+                neighborhood: String,
+            },
+            
+        }]
 });
 
-CompanySchema.virtual('password').set(function (password) {
+UserSchema.virtual('password').set(function (password) {
         this.password_hash = this.hashPassword(password);
     });
 
-CompanySchema.methods = {
+UserSchema.methods = {
     checkPassword: function(password) {
         return bcrypt.compare(password, this.password_hash);
     },
@@ -55,4 +58,4 @@ CompanySchema.methods = {
     }
 }
 
-module.exports = mongoose.model('Company', CompanySchema);
+module.exports = mongoose.model('User', UserSchema);
