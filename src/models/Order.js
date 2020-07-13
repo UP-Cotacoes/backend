@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const OrderSchema = new mongoose.Schema({
-    _id: {
+    company_id: {
         type: String,
         required: true,
     },
@@ -9,10 +9,9 @@ const OrderSchema = new mongoose.Schema({
         product_name: String,
         brand: String,
         amount: Number,
-        payment: String,
-        freight: String,
         notes: String,
-    }]
+        category: Number,
+    }],
 });
 
 module.exports  = mongoose.model('Order', OrderSchema);

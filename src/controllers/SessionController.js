@@ -9,23 +9,23 @@ module.exports = {
         if (req.body.email) {
             const user = await User.findOne({email: req.body.email});
             
-            if (!user) return res.json({status: 'Empresa não registrada.'});
+            if (!user) return res.status(403).json({status: 'Usuário não registrado.'});
 
             const correctPassword = user.checkPassword(req.body.password);
             
             const id = user._id;
 
             if (correctPassword) {
-                return res.json({
+                return res.status(200).json({
                     token: jwt.sign({id}, authConfig.secret, {
                         expiresIn: authConfig.expiresIn,
                     })
                 })
             }
-            return res.json({status: 'Senha incorreta'});
+            return res.status(403).json({status: 'Senha incorreta'});
         }
 
-        return res.json({status: 'Campo vazio'});
+        return res.status(400).json({status: 'Campo vazio'});
     },
 
     async listCompanies(req, res) {
@@ -33,6 +33,6 @@ module.exports = {
         
         if (!user) return res.json({status: 'Usuário não encontrado.'});
 
-        return res.json(user.companies);
+        return res.status(200).json(user.companies);
     },
 }

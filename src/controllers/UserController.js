@@ -10,16 +10,18 @@ module.exports = {
         const phoneExists = await User.findOne({phone});
 
         if (userExists) 
-            return res.json({status: 'Email já foi utilizado.'});
+            return res.status(400).json({status: 'Email já foi utilizado.'});
 
         if (phoneExists) 
-            return res.json({status: 'Número já está sendo utilizado.'});
+            return res.status(400).json({status: 'Número já está sendo utilizado.'});
 
         if (!(password === confirm_password)) 
-            return res.json({status: 'As senhas são diferentes.'});
+            return res.status(400).json({status: 'As senhas são diferentes.'});
         
-        await User.create(data);
-        return res.json(data);
+        if (!(10 <= data.phone.length <= 12)) return res.status(400).json({status: 'Numero inválido.'});
+        
+        const response = await User.create(data);
+        return res.status(200).json({status: response});
     },
 
     async update(req, res) {
