@@ -12,6 +12,9 @@ module.exports.authMiddleware = async function (req, res, next) {
     try {
         const decoded = await promisify(jwt.verify)(token, authConfig.secret);
         req.body.id = decoded.id;
+        req.body.provider = decoded.provider;
+        req.body.category = decoded.category;
+
         return next();
     } catch(err) {
         return res.json({status: 'Token inválido'});

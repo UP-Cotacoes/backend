@@ -13,20 +13,22 @@ module.exports = {
         if (req.body.email && req.body.password) {
             const user = await User.findOne({email: req.body.email});
             
-            if (!user) return res.status(403).json({status: 'Usuário não registrado.'});
+            if (!user) return res.status(400).json({status: 'Usuário não registrado.'});
             
             const correctPassword = await user.checkPassword(req.body.password);
             
             const id = user._id;
-
+            const provider = user.provider;
+            const category = user.category;
+    
             if (correctPassword) {
                 return res.status(200).json({
-                    token: jwt.sign({id}, authConfig.secret, {
+                    token: jwt.sign({id, provider, category}, authConfig.secret, {
                         expiresIn: authConfig.expiresIn,
                     })
                 })
             }
-            return res.status(403).json({status: 'Senha incorreta'});
+            return res.status(400).json({status: 'Senha incorreta'});
         }
 
         return res.status(400).json({status: 'Campo vazio'});
