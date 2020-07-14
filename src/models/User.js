@@ -23,6 +23,10 @@ const UserSchema = new mongoose.Schema({
             type: Boolean,
             default: false,
         },
+        category: {
+            type: String,
+            default: null
+        },
         companies: [{
             name: {
                 type: String,
@@ -40,7 +44,6 @@ const UserSchema = new mongoose.Schema({
                 city: String,
                 neighborhood: String,
             },
-            
         }]
 });
 

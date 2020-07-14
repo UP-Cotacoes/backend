@@ -1,7 +1,7 @@
 module.exports = {
-    'higiene': 1,
-    'descartaveis': 2,
-    'papelaria': 3,
-    'escritorio': 4,
-    'pereciveis': 5,
+    1: 'higiene',
+    2: 'descartaveis',
+    3: 'papelaria',
+    4: 'escritorio',
+    5: 'pereciveis'
 }

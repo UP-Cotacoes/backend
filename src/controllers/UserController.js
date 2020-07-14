@@ -30,4 +30,7 @@ module.exports = {
     async update(req, res) {
         //TODO
     },
+    async delete(req, res) {
+
+    }
 }

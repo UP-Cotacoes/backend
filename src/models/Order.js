@@ -10,7 +10,7 @@ const OrderSchema = new mongoose.Schema({
         brand: String,
         amount: Number,
         notes: String,
-        category: Number,
+        category: String,
     }],
 });
 
