@@ -9,6 +9,9 @@ module.exports = {
         const userExists = await User.findOne({email});
         const phoneExists = await User.findOne({phone});
 
+        if (!data.length)
+            return res.status(400).json({status: 'Preencha o campo vazio'});
+
         if (userExists) 
             return res.status(400).json({status: 'Email já foi utilizado.'});
 

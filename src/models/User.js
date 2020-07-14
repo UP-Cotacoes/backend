@@ -53,12 +53,15 @@ UserSchema.virtual('password').set(function (password) {
     });
 
 UserSchema.methods = {
-    checkPassword: function(password) {
-        return bcrypt.compare(password, this.password_hash);
+    checkPassword: async function(password) {
+        const isCorrect = await bcrypt.compare(password, this.password_hash);
+        //console.log(isCorrect);
+        return isCorrect;
     },
-    hashPassword: function(password) {
+    hashPassword: async function(password) {
         if (!password) return;
-        return bcrypt.hashSync(password, SALT_WORK_FACTOR);
+        const passwordHash = await bcrypt.hashSync(password, SALT_WORK_FACTOR);
+        return passwordHash;
     }
 }
 

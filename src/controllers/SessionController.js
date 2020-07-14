@@ -6,12 +6,16 @@ const User = mongoose.model('User');
 
 module.exports = {
     async createSession(req, res) {
-        if (req.body.email) {
+
+        const data = req.body;
+        if (!data) return res.status(400).json({status: 'Preencha os campos vazios'});
+
+        if (req.body.email && req.body.password) {
             const user = await User.findOne({email: req.body.email});
             
             if (!user) return res.status(403).json({status: 'Usuário não registrado.'});
-
-            const correctPassword = user.checkPassword(req.body.password);
+            
+            const correctPassword = await user.checkPassword(req.body.password);
             
             const id = user._id;
 
