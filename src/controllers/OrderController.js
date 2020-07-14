@@ -15,7 +15,7 @@ module.exports = {
 
         if (!(id)) return res.json({status: 'Não autorizado'});
         
-        if(!products.length) 
+        if(!products) 
             return res.status(400).json({status: 'Não há produtos no pedido.'});
 
         const order = {

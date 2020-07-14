@@ -28,10 +28,6 @@ const UserSchema = new mongoose.Schema({
                 type: String,
                 required: true,
             },
-            phone: {
-                type: String,
-                required: true,
-            },
             cnpj: {
                 type: String,
                 required: true,
@@ -53,14 +49,13 @@ UserSchema.virtual('password').set(function (password) {
     });
 
 UserSchema.methods = {
-    checkPassword: async function(password) {
-        const isCorrect = await bcrypt.compare(password, this.password_hash);
-        //console.log(isCorrect);
+    checkPassword: function(password) {
+        const isCorrect = bcrypt.compare(password, this.password_hash);
         return isCorrect;
     },
-    hashPassword: async function(password) {
+    hashPassword: function(password) {
         if (!password) return;
-        const passwordHash = await bcrypt.hashSync(password, SALT_WORK_FACTOR);
+        const passwordHash = bcrypt.hashSync(password, SALT_WORK_FACTOR);
         return passwordHash;
     }
 }
