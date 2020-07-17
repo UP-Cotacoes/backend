@@ -9,7 +9,12 @@ module.exports = {
         if (cnpj && !cep) url = BASE_URL_CNPJ + cnpj;
         
         request({url}, function(err, response, body) {
-            return res.json(JSON.parse(body));
+            try {
+                return res.json(JSON.parse(body));
+            } catch(err)
+            {
+                return res.json({status: err});
+            }
         })
     },
 }
