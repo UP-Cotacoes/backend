@@ -6,15 +6,14 @@ const OrderController = require('./controllers/OrderController');
 const OrderProviderController = require('./controllers/OrderProviderController');
 
 const auth = require('./middleware/auth');
-const services = require('./services/validation');
+const services = require('./services/query');
 
 //Rotas principais
 routes.post('/register', UserController.create);
 routes.post('/sessions', SessionController.createSession);
 
 //Services
-routes.post('/services/validate/cnpj', services.validateCnpj);
-routes.post('/services/validate/cep', services.validateCep);
+routes.post('/services/query', services.query);
 
 //Somente autenticado pode usar essas rotas
 routes.use(auth.authMiddleware);
