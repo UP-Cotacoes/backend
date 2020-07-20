@@ -36,6 +36,14 @@ const UserSchema = new mongoose.Schema({
                 type: String,
                 required: true,
             },
+            cnpj_status: {
+                type: Number,
+                default: 0,
+            },
+            actions_blocked: {
+                type: Boolean,
+                required: true,
+            },
             address: {
                 street: String,
                 number: String,

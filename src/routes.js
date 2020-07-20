@@ -13,7 +13,8 @@ routes.post('/register', UserController.create);
 routes.post('/sessions', SessionController.createSession);
 
 //Services
-routes.post('/services/query', services.query);
+routes.post('/services/query/cnpj', services.queryCnpj);
+routes.post('/services/query/cep', services.queryCep);
 
 //Somente autenticado pode usar essas rotas
 routes.use(auth.authMiddleware);
