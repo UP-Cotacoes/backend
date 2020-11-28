@@ -16,7 +16,7 @@ const request = require('request');
 module.exports.save = async function(user_id, cnpj, status) {
     const actions_blocked = 0;
     
-    if (status == INVALID_CNPJ || CNPJ_UNDER_REVIEW) 
+    if (status == INVALID_CNPJ || status == CNPJ_UNDER_REVIEW) 
         actions_blocked = 1;
     
     console.log(status, actions_blocked);
